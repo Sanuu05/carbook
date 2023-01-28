@@ -26,7 +26,7 @@ function Details() {
     const dispatch = useDispatch()
     const[load,setload] = useState(false)
 
-    const port = "https://carbook.onrender.com"
+    const port = "https://cariva.onrender.com"
     useEffect(() => {
         if (mdata?.id) {
             detail(mdata?.id)
@@ -103,7 +103,7 @@ function Details() {
         }
 
 
-        const result = await axios.post("http://localhost:5050/main/order", paydata);
+        const result = await axios.post("https://cariva.onrender.com/main/order", paydata);
 
         if (!result) {
             alert("Server error. Are you online?");
@@ -137,7 +137,7 @@ function Details() {
                 };
                 console.log('tokenn',token)
 
-                const result = await axios.post("http://localhost:5050/main/success", data1, { headers: { "x-auth-token": token } });
+                const result = await axios.post("https://cariva.onrender.com/main/success", data1, { headers: { "x-auth-token": token } });
                 // setsuccmsg(result.data.msg)
                 // dispatch(deleted())
                 // alert(`${result.data.msg ? "Order placed Sucessfully" : null}`);

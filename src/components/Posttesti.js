@@ -23,7 +23,7 @@ function Posttesti() {
     const [alladd, setalladd] = useState()
     const [sstatus, setsstatus] = useState()
     const [select, setselect] = useState()
-    const port = "https://carbook.onrender.com"
+    const port = "https://cariva.onrender.com"
     const handleMultipleImages = (evnt) => {
         const selectedFIles = [];
         const targetFiles = evnt.target.files;
