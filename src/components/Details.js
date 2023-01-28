@@ -4,6 +4,7 @@ import { MdAirlineSeatReclineNormal, MdShoppingBag } from "react-icons/md";
 import { GiCarDoor } from 'react-icons/gi'
 import { DatePicker, message } from 'antd';
 import { NavLink, useParams } from 'react-router-dom'
+
 import moment from 'moment'
 import 'antd/dist/antd.css';
 import { async } from '@firebase/util';
@@ -12,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {allorders, order} from '../action/user'
-import {IoLocation} from 'react-icons/io5'
+import {IoLocation,IoTodaySharp} from 'react-icons/io5'
 const { RangePicker } = DatePicker
 function Details() {
     const [fromtime, setfromtime] = useState()
@@ -20,36 +21,22 @@ function Details() {
     const [totaltime, settotaltime] = useState()
     const [data, setdata] = useState()
     const { id } = useParams()
+    const mdata = JSON.parse(id)
+    // console.log(id)
     const dispatch = useDispatch()
     const[load,setload] = useState(false)
-    const selecttime = (value) => {
-        setfromtime(moment(value[0]).format('MMM DD yyyy HH:mm'))
-        settotime(moment(value[1]).format('MMM DD yyyy HH:mm'))
-        const filter =data?.order?.filter(p=>(p.from >=(moment(value[0]).format('MMM DD yyyy HH:mm'))) && p.to<=(moment(value[1]).format('MMM DD yyyy HH:mm')))
-        if(filter?.length===0){
-            settotaltime(value[1].diff(value[0], 'Hours'))
-        }
-        else{
-            toast.error('Car not availbe for the selected date')
-        }
-        
-        
 
-
-    }
-
-    console.log({fromtime,settotime})
-    const port = "https://carbb.herokuapp.com"
+    const port = "https://carbook.onrender.com"
     useEffect(() => {
-        if (id) {
-            detail(id)
+        if (mdata?.id) {
+            detail(mdata?.id)
         }
         dispatch(allorders())
         
 
-    }, [id])
+    }, [mdata?.id])
    const allord = useSelector(state=>state.allorders.allorders)
-   console.log('sss',allord)
+   console.log('sss',mdata)
     const detail = async (ids) => {
         try {
             const { data } = await axios.get(`${port}/main/detail/${ids}`)
@@ -68,13 +55,10 @@ function Details() {
         dispatch(order({carid:data?.data?._id,from:fromtime,to:totime,hours:totaltime,amount:data?.data?.price * totaltime}))
         
     }
-    const dates = [ 'Apr 11 2022 17:03','Apr 12 2022 17:03','Apr 13 2022 17:03','Apr 14 2022 17:03','Apr 15 2022 17:03','Apr 16 2022 17:03','Apr 09 2022 17:03']
-
-    const filtedate = dates?.filter(p=>p >='Apr 05 2022 17:03' && p<='Apr 14 2022 17:03')
     const succlog = useSelector((state) => state.user.user)
-//   console.log('user',succ)
-    console.log('fll',filtedate?.sort())
     const postres = useSelector(p=>p.post.ordersuc)
+    const token = useSelector((state) => state.user.token)
+    console.log('usedata',succlog)
     useEffect(()=>{
         if(postres){
             toast.success("Order Placed Sucessfully")
@@ -84,16 +68,103 @@ function Details() {
 
     },[postres])
 
+
+
+
+    const paydata = {
+        total: Number((data?.data?.price * mdata?.ttime)?.toFixed(2)) ,
+        // user: userdata,
+        // totalcart: posts
+
+    }
+
+    function loadScript(src) {
+        return new Promise((resolve) => {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => {
+                resolve(true);
+            };
+            script.onerror = () => {
+                resolve(false);
+            };
+            document.body.appendChild(script);
+        });
+    }
+    async function displayRazorpay() {
+        // e.preventDefault()
+        const res = await loadScript(
+            "https://checkout.razorpay.com/v1/checkout.js"
+        );
+
+        if (!res) {
+            alert("Razorpay SDK failed to load. Are you online?");
+            return;
+        }
+
+
+        const result = await axios.post("http://localhost:5050/main/order", paydata);
+
+        if (!result) {
+            alert("Server error. Are you online?");
+            return;
+        }
+
+        const { amount, id: order_id, currency } = result.data;
+
+        const options = {
+            key: "rzp_test_fvOAKuvkkgRaoU", // Enter the Key ID generated from the Dashboard
+            amount: amount.toString(),
+            currency: currency,
+            name: "TechMart",
+            description: "Test Transaction",
+            // image: { logo },
+            order_id: order_id,
+            handler: async function (response) {
+                const data1 = {
+                    orderCreationId: order_id,
+                    razorpayPaymentId: response.razorpay_payment_id,
+                    razorpayOrderId: response.razorpay_order_id,
+                    razorpaySignature: response.razorpay_signature,
+                    totaldata: paydata,
+                    carid:data?.data?._id,
+                    address:mdata?.address?.address,
+                    from:mdata?.from,
+                    to:mdata?.to,
+                    hours:mdata?.ttime,
+                    amount:data?.data?.price * totaltime
+
+                };
+                console.log('tokenn',token)
+
+                const result = await axios.post("http://localhost:5050/main/success", data1, { headers: { "x-auth-token": token } });
+                // setsuccmsg(result.data.msg)
+                // dispatch(deleted())
+                // alert(`${result.data.msg ? "Order placed Sucessfully" : null}`);
+                if(result){
+                    window.location.href='/mybooking'
+                }
+            },
+            prefill: {
+                name: succlog?.name,
+                email:succlog?.email
+                // contact:userdata.mobile,
+              },
+            theme: {
+                color: "#61dafb",
+            },
+        };
+
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
+    }
+
     return (
         <Container>
             <Row style={{ marginTop: 100 }}>
                 <Col sm={12} md={6} xl={6} >
 
-                    {/* {
-                        data?.img?.map((val, index) => {
-                            return <img src={val?.url} style={{ height: 350 }} className="img-fluid" />
-                        })
-                    } */}
+                  
                     <Carousel>
                         {
                             data?.data?.img?.map((val, index) => {
@@ -104,10 +175,7 @@ function Details() {
                                         alt="First slide"
                                         style={{ height: '340px' }}
                                     />
-                                    {/* <Carousel.Caption>
-                                <h3>First slide label</h3>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </Carousel.Caption> */}
+                               
                                 </Carousel.Item>
                             })
                         }
@@ -146,26 +214,26 @@ function Details() {
                         </div>
                         {/* <div></div> */}
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', flexDirection: 'column', width: '70%', marginTop: 30 }}>
-                        <div>
-                            <RangePicker showTime={"HH:mm"} format="MMM DD yyyy HH:mm" onChange={selecttime} />
-                        </div>
-                    </div>
+                    <h4 style={{ fontSize: 15,color:'grey' ,marginTop:'15px'}}><IoLocation style={{ fontSize: 30,color:'gray' }}/> {mdata?.address?.address}</h4>
+             <h4 style={{ fontSize: 15,color:'grey' ,marginTop:'15px'}}><IoTodaySharp style={{ fontSize: 30,color:'gray' }}/> {mdata?.from} - {mdata?.to}</h4>
+         
+
+                  
                     {
-                        totaltime ?
+                        mdata?.ttime ?
 
                             <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', flexDirection: 'column', width: '70%', marginTop: 30 }}>
                                 <div>
-                                    <p style={{ fontSize: 16, margin: 0 }}>Total Hours : <span style={{ fontSize: 16, margin: 0, fontWeight: 'bold' }}>{totaltime}</span> </p>
+                                    <p style={{ fontSize: 16, margin: 0 }}>Total Hours : <span style={{ fontSize: 16, margin: 0, fontWeight: 'bold' }}>{mdata?.ttime}</span> </p>
                                 </div>
                                 <div>
                                     <p style={{ fontSize: 16, margin: 0 }}>Rent per Hour : <span style={{ fontSize: 16, margin: 0, fontWeight: 'bold' }}>₹{data?.data?.price}</span> </p>
                                 </div>
                                 <div>
-                                    <p style={{ fontSize: 30, margin: 0 }}>Total : <span style={{ fontSize: 30, margin: 0, fontWeight: 'bold' }}>₹ {data?.data?.price * totaltime}</span> </p>
+                                    <p style={{ fontSize: 30, margin: 0 }}>Total : <span style={{ fontSize: 30, margin: 0, fontWeight: 'bold' }}>₹ {data?.data?.price * mdata?.ttime}</span> </p>
                                 </div>
                                 {
-                                    succlog? load?<button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold',width:'200px' }} ><Spinner animation="border" variant="info" /></button> : <button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold',width:'200px' }} onClick={orders} >Book Now</button>
+                                    succlog? load?<button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold',width:'200px' }} ><Spinner animation="border" variant="info" /></button> : <button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold',width:'200px' }} onClick={displayRazorpay} >Book Now</button>
 :
 <button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold' ,width:'200px'}} onClick={()=>toast.error("Login to book car")} >Book No</button>
 

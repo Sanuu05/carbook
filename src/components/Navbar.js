@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Navbar,Container,NavDropdown,Nav,Form,FormControl,Button} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
 import {logout} from './../action/user'
 import {useLocation} from 'react-router-dom'
-function Navbarm({show}) {
+import logo from '../img/logo.png'
+function Navbarm({show,searchdata,tag}) {
   const succ = useSelector((state) => state.user.user)
   console.log('user',succ)
   const dispatch = useDispatch()
   const location = useLocation()
+  const[sdata,setsdata] = useState()
   return (
     <Navbar bg="light" expand="lg">
   <Container>
     {
-      show? <Navbar.Brand  href='/'>CarBx</Navbar.Brand>
-      : <Navbar.Brand style={{cursor:'pointer'}} onClick={()=>window.history?.back()}>CarB</Navbar.Brand>
+      show? <Navbar.Brand  href='/'><img src={logo} style={{width:'150px'}} alt='logo' /></Navbar.Brand>
+      : <Navbar.Brand style={{cursor:'pointer'}} onClick={()=>tag==="home"?window.location.href="/": window.history?.back()}><img src={logo} style={{width:'150px'}} alt='logo' /></Navbar.Brand>
     }
    
     <Navbar.Toggle aria-controls="navbarScroll" />
@@ -23,29 +25,22 @@ function Navbarm({show}) {
         style={{ maxHeight: '100px' }}
         navbarScroll
       >
-        {/* <Nav.Link href="/">Home</Nav.Link>
-        <Nav.Link href="/login">Login</Nav.Link>
-        <NavDropdown title="Link" id="navbarScrollingDropdown">
-          <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-          <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-          <NavDropdown.Divider />
-          <NavDropdown.Item href="#action5">
-            Something else here
-          </NavDropdown.Item>
-        </NavDropdown>
-        <Nav.Link href="#" disabled>
-          Link
-        </Nav.Link> */}
+        
       </Nav>
       {
           show?
       
-      <Form className="d-flex">
+      <Form className="d-flex" onSubmit={(e)=>{
+        e.preventDefault()
+        searchdata(sdata)
+      }}>
         <FormControl
           type="search"
           placeholder="Search"
           className="me-2"
           aria-label="Search"
+          onChange={(v)=>setsdata(v)}
+
         />
         <Button variant="outline-success">Search</Button>
       </Form>:null}
@@ -57,9 +52,6 @@ function Navbarm({show}) {
         <NavDropdown.Item href="/carorder">CAR ORDERED (delivery)</NavDropdown.Item>
         <NavDropdown.Item onClick={()=>dispatch(logout())}>Logout</NavDropdown.Item>
         <NavDropdown.Divider />
-        {/* <NavDropdown.Item href="#action5">
-          Something else here
-        </NavDropdown.Item> */}
       </NavDropdown>:
       <Nav.Link href="/login">Login</Nav.Link>
 

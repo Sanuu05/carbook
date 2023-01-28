@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Col, Row, Card, Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-function Homecard({cars,fil}) {
+function Homecard({cars,fil,hdata}) {
    
    
     return (
@@ -15,7 +15,7 @@ function Homecard({cars,fil}) {
                             <p style={{ margin: 0 }}>{cars?.val?.name}</p>
                             <p style={{ margin: 0 }}>{cars?.val?.price}/- Per Hour</p>
                         </div>
-                        <NavLink to={`/detail/${cars?.val?._id}`}>
+                        <NavLink to={`/detail/${JSON.stringify({id:cars?.val?._id,...hdata})}`}>
                             <button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 13, fontWeight: 'bold' }} >Book Now</button>
                         </NavLink>
 

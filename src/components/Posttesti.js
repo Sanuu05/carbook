@@ -23,7 +23,7 @@ function Posttesti() {
     const [alladd, setalladd] = useState()
     const [sstatus, setsstatus] = useState()
     const [select, setselect] = useState()
-    const port = "https://carbb.herokuapp.com"
+    const port = "https://carbook.onrender.com"
     const handleMultipleImages = (evnt) => {
         const selectedFIles = [];
         const targetFiles = evnt.target.files;
@@ -297,7 +297,7 @@ function Posttesti() {
 
 
     }
-    const search = async (v) => {
+    const search1 = async (v) => {
         try {
             setsstatus(v.target.value)
             const { data } = await axios.get(`${port}/main/search/${v.target.value}`)
@@ -312,6 +312,17 @@ function Posttesti() {
 
 
     }
+    const callb = (cb, t) => {
+        let timer;
+        return function (...args) {
+            if (timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+                cb(...args)
+            }, t)
+        }
+    }
+
+    const search = callb(search1, 1000)
     return (
         <Container className='posttest'>
             <Row className='mt-5'>

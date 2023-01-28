@@ -116,7 +116,7 @@ function Login() {
         }
     }, [err, succ])
     return (
-        <Container style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Container style={{ minHeight: '100vh', display: 'flex' }}>
             <Row>
                 <Col sm={12} md={6} xl={6}>
                     <img src="https://starpng.com/public/uploads/preview/car-transparent-background-png-101577011666b0xvgdmw9a.png" className='img-fluid' />

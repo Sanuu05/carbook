@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Home from './components/Home'
 import { Routes, Route } from 'react-router-dom'
 import Details from './components/Details';
@@ -13,23 +13,25 @@ import Homemain from './components/Homemain';
 import Carorder from './components/Carorder';
 
 function App() {
+  const[sdata,setsdata] = useState()
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadUser())
     dispatch(getallcars())
     dispatch(mycars())
   }, [])
+  console.log('df',sdata)
   return (
     <div className="App">
 
       <Routes>
         <Route path='/' element={<>
-          <Navbar show={false} />
+          <Navbar show={false} tag="home" />
           <Homemain />
         </>} />
         <Route path='/home/:id' element={<>
-          <Navbar show={true} />
-          <Home />
+          <Navbar show={true} searchdata={(v)=>setsdata(v)} tag="home" />
+          <Home sdata={sdata} />
         </>} />
         <Route path='/detail/:id' element={<>
           <Navbar show={false} />
