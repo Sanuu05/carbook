@@ -37,7 +37,7 @@ setselect(srch.address)
 settotime(srch.to)
 settotaltime(srch.ttime)
     },[])
-    
+    console.log('cars',cars)
     // settotime(srch.totime)
     const filt = cars?.map((v,i)=>{
         console.log('vaa',v)

@@ -43,18 +43,13 @@ function Details() {
             console.log('ddd', data?.order)
             setdata(data)
         } catch (error) {
-
+console.log('err',error)
         }
 
 
     }
 
-    const orders = () => {
-        setload(true)
-        console.log({carid:data?._id,from:fromtime,to:totime,hours:totaltime,total:data?.price * totaltime})
-        dispatch(order({carid:data?.data?._id,from:fromtime,to:totime,hours:totaltime,amount:data?.data?.price * totaltime}))
-        
-    }
+   
     const succlog = useSelector((state) => state.user.user)
     const postres = useSelector(p=>p.post.ordersuc)
     const token = useSelector((state) => state.user.token)
@@ -116,7 +111,7 @@ function Details() {
             key: "rzp_test_fvOAKuvkkgRaoU", // Enter the Key ID generated from the Dashboard
             amount: amount.toString(),
             currency: currency,
-            name: "TechMart",
+            name: "Cariva",
             description: "Test Transaction",
             // image: { logo },
             order_id: order_id,
