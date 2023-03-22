@@ -228,9 +228,9 @@ console.log('err',error)
                                     <p style={{ fontSize: 30, margin: 0 }}>Total : <span style={{ fontSize: 30, margin: 0, fontWeight: 'bold' }}>₹ {data?.data?.price * mdata?.ttime}</span> </p>
                                 </div>
                                 {
-                                    succlog? load?<button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold',width:'200px' }} ><Spinner animation="border" variant="info" /></button> : <button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold',width:'200px' }} onClick={displayRazorpay} >Book Now</button>
+                                    succlog? load?<button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold',width:'200px',marginBottom:'20px' }} ><Spinner animation="border" variant="info" /></button> : <button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold',width:'200px' ,marginBottom:'20px'}} onClick={displayRazorpay} >Book Now</button>
 :
-<button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold' ,width:'200px'}} onClick={()=>toast.error("Login to book car")} >Book No</button>
+<button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 16, fontWeight: 'bold' ,width:'200px',marginBottom:'20px'}} onClick={()=>toast.error("Login to book car")} >Book Now</button>
 
                                 }
 
