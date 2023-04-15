@@ -3,11 +3,10 @@ import {useDispatch, useSelector} from 'react-redux'
 import {Col, Container, Row} from 'react-bootstrap'
 import { MdAirlineSeatReclineNormal, MdShoppingBag } from "react-icons/md";
 import { GiCarDoor } from 'react-icons/gi'
-import { carorder } from '../action/user'
+import { carorder } from '../../action/user'
 function Carorder() {
     const dispatch = useDispatch()
     const data = useSelector(p=>p.mybook.book)
-    console.log('mybook',data)
     const time = new Date().toLocaleString()
     const filup = data?.filter(p=>p.from>=time)
     const filpast = data?.filter(p=>p.from<=time)

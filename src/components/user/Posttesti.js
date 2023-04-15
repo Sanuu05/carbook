@@ -3,7 +3,7 @@ import { Col, Container, Row, TabContainer, Spinner } from 'react-bootstrap'
 import { BiImageAdd } from 'react-icons/bi'
 import { MdCancel } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { senddata } from '../action/user'
+import { senddata } from '../../action/user'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';

@@ -1,6 +1,5 @@
 import React from 'react'
-import { Container, Col, Row, Card, Button } from 'react-bootstrap'
-import { useSelector } from 'react-redux'
+import {  Col, Card } from 'react-bootstrap'
 import { NavLink } from 'react-router-dom'
 function Homecard({cars,fil,hdata}) {
    

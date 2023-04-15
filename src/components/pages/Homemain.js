@@ -5,9 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'antd/dist/antd.css';
-import axios from 'axios'
 import Searchbar from './Searchbar';
-// import axios from 'axios';
 const { RangePicker } = DatePicker
 
 function Homemain() {

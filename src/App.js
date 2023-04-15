@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import Home from './components/Home'
 import { Routes, Route } from 'react-router-dom'
-import Details from './components/Details';
-import Navbar from './components/Navbar';
-import Posttesti from './components/Posttesti';
-import Login from './components/Login';
 import { useDispatch } from 'react-redux';
 import { getallcars, loadUser, mycars } from './action/user';
-import Mybookimg from './components/Mybookimg';
-import Mycars from './components/Mycars';
-import Homemain from './components/Homemain';
-import Carorder from './components/Carorder';
+import {Details,Navbar,Homemain,Home} from './components/pages'
+import {Carorder,Login,Mybookimg,Mycars,Posttesti} from './components/user'
 
 function App() {
   const[sdata,setsdata] = useState()

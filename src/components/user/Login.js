@@ -2,15 +2,12 @@
 import { Col, Container, Row } from 'react-bootstrap'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
-import { app } from '../firebase'
+import { useNavigate } from 'react-router-dom'
+import { app } from '../../firebase'
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth'
-import { loguser, userSign } from '../action/user'
+import { loguser, userSign } from '../../action/user'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import M from 'materialize-css'
-
-
 function Login() {
     const [data, setdata] = useState({
         name: "", email: "", password: "", cpassword: ""
@@ -25,50 +22,30 @@ function Login() {
     // const auth =''
     const postData = () => {
         if (data?.email && data?.password) {
-            // setloading(true)
-            // console.log(loading)
             signInWithEmailAndPassword(auth, data.email, data.password)
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
-                    // sendEmailVerification(user)
-                    // ...
                     console.log(userCredential.user?.emailVerified)
                     if (userCredential?.user?.emailVerified) {
-                        // toast.success('Login sucessful')
-                        // window.location.reload()
-                        // alert('ehlloo')
                         dispatch(loguser({ email: userCredential.user.email }))
-                        // dispatch(loadUser())
-                        // setloading(false)
 
 
                     } else {
                         toast.error("Email is not verified")
-                        // alert(error?.message)
-                        // setloading(false)
                     }
                 })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
-                    // setloading(false)
-                    // ..
-                    // alert(error?.message)
                     toast.error(error?.message)
-                    // console.log
                 });
 
         } else {
             toast.error('Enter all the field')
         }
-        // dispatch(loguser({ email: data.email, password: data?.password }))
-        // dispatch(loadUser())
-
     }
-    //    const auth = getAuth()
     const submit = ()=>{
-        // dispatch(userSign(data))
         if(data.email && data.name && data.cpassword && data.password){
             if (data.password === data.cpassword) {
                 createUserWithEmailAndPassword(auth, data.email, data.password)
@@ -76,10 +53,7 @@ function Login() {
                         // Signed in 
                         const user = userCredential.user;
                         sendEmailVerification(user)
-                        // dispatch(userNormalSign(userdata))
                         dispatch(userSign({email:data.email.toLowerCase(),name:data.name}))
-                        // ...
-                        // console.log(userCredential)
                         toast.success("Account created sucessfully, email verification link send to your email id")
                         setsignup(false)
                     })
@@ -103,14 +77,12 @@ function Login() {
     useEffect(() => {
 
         if (succ) {
-            //    M.toast({html:"Login Sucessfully",classes:"#00e676 green accent-3"})
             toast.success('Login Sucessfully')
             setsignup(false)
                return navigate('/')
             
         }
         if (err) {
-            //   return M.toast({html:err,classes:"#d32f2f red darken-2"})
             toast.error(err)
 
         }
@@ -176,9 +148,6 @@ function Login() {
                             }
 
 
-                            {/* <h5>
-                                <Link to='/signup'>Dont have an acount ?</Link>
-                            </h5> */}
                             {
                                 signup ?
                                     <p>Have an acount ? <span style={{ cursor: 'pointer' }} onClick={() => setsignup(false)}>Login</span></p> :

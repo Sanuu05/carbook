@@ -1,20 +1,18 @@
 import React, { useState } from 'react'
 import { Card, Container, Col, Row, Modal, Button } from 'react-bootstrap'
-import { useSelector ,useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { MdAirlineSeatReclineNormal, MdShoppingBag } from "react-icons/md";
 import { GiCarDoor } from 'react-icons/gi'
-import { delcar } from '../action/user';
+import { delcar } from '../../action/user';
 
 
 function Mycars() {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [moddata, setmodtata] = useState()
   const dispatch = useDispatch()
   const data = useSelector(state => state.mycar?.mycars)
-  console.log('my', data)
   return (
     <Container>
       <h2 style={{ fontSize: '40px', margin: '10px 0', color: 'grey', borderBottom: '2px dotted grey' }}>MY TESTIMONIAL</h2>
@@ -54,7 +52,7 @@ function Mycars() {
                         setShow(true)
                         setmodtata(val)
                       }} >Edit</button> */}
-                      <button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 13, fontWeight: 'bold' }} onClick={()=>dispatch(delcar(val?._id))} >Delete</button>
+                      <button style={{ backgroundColor: 'transparent', color: 'orangered', outline: 'none', border: '1px solid orangered', padding: '5px 10px', fontSize: 13, fontWeight: 'bold' }} onClick={() => dispatch(delcar(val?._id))} >Delete</button>
                     </div>
 
                     {/* </NavLink> */}
@@ -70,7 +68,7 @@ function Mycars() {
         }
       </Row>
       <>
-        
+
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>Modal heading</Modal.Title>

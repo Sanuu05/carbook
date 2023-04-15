@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import {Navbar,Container,NavDropdown,Nav,Form,FormControl,Button} from 'react-bootstrap'
 import {useDispatch, useSelector} from 'react-redux'
-import {logout} from './../action/user'
-import {useLocation} from 'react-router-dom'
-import logo from '../img/logo.png'
+import {logout} from './../../action/user'
+import logo from '../../img/logo.png'
 function Navbarm({show,searchdata,tag}) {
   const succ = useSelector((state) => state.user.user)
   console.log('user',succ)
   const dispatch = useDispatch()
-  const location = useLocation()
   const[sdata,setsdata] = useState()
   return (
     <Navbar bg="light" expand="lg">
