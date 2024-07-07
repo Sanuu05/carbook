@@ -62,7 +62,7 @@ font-family: 'Righteous', cursive;
 .homemaindiv .datecard{
   height: fit-content;
   width: 450px;
-  position: absolute;
+  /* position: absolute; */
   background-color: transparent;
   bottom: 30vh;
   left: 0; 
@@ -147,6 +147,11 @@ font-family: 'Righteous', cursive;
   border-radius: 5px;
 }
 
+.leaflet-container{
+  height: 300px!important;
+  width: 450px!important;
+}
+
 @media screen and (max-width: 880px) {
   .mybook .mid p{
     font-size: 10px;
@@ -160,7 +165,7 @@ font-family: 'Righteous', cursive;
   .homemaindiv .datecard{
     min-height: 250px;
     width: 70%;
-    position: absolute;
+    /* position: absolute; */
     background-color: transparent;
     bottom: 35vh;
     left: 0; 
@@ -170,6 +175,10 @@ font-family: 'Righteous', cursive;
     /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(167, 164, 164, 0.19); */
     border-radius: 10px;
   
+  }
+  .leaflet-container{
+    height: 300px!important;
+    width: 70%!important;
   }
   .homemaindiv .homemainhead h2{
     background-color: rgba(0, 0, 0, 0.532);

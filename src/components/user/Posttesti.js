@@ -3,7 +3,7 @@ import { Col, Container, Row, TabContainer, Spinner } from 'react-bootstrap'
 import { BiImageAdd } from 'react-icons/bi'
 import { MdCancel } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { senddata } from '../../action/user'
+import { port, senddata } from '../../action/user'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios'
 import 'react-toastify/dist/ReactToastify.css';
@@ -23,7 +23,6 @@ function Posttesti() {
     const [alladd, setalladd] = useState()
     const [sstatus, setsstatus] = useState()
     const [select, setselect] = useState()
-    const port = "https://cariva.onrender.com"
     const handleMultipleImages = (evnt) => {
         const selectedFIles = [];
         const targetFiles = evnt.target.files;

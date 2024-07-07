@@ -8,13 +8,13 @@ import {GoogleAuthProvider} from 'firebase/auth'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBbgtFLhQFnqQT4SZcQh_85Qkh49DUvBAo",
-  authDomain: "card-8a0c1.firebaseapp.com",
-  projectId: "card-8a0c1",
-  storageBucket: "card-8a0c1.appspot.com",
-  messagingSenderId: "424208404687",
-  appId: "1:424208404687:web:e7f7e03cac9358525ba7ba",
-  measurementId: "G-BMZZKL7FHX"
+  apiKey: "AIzaSyDFQWRnXYRIA1nifvlILVVWBOBIXTV8wok",
+  authDomain: "cariva-d0014.firebaseapp.com",
+  projectId: "cariva-d0014",
+  storageBucket: "cariva-d0014.appspot.com",
+  messagingSenderId: "764894151759",
+  appId: "1:764894151759:web:e3b8a4d337eca08aeed63a",
+  measurementId: "G-RWNW0EP7LP"
 };
 
 // Initialize Firebase

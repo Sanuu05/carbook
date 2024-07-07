@@ -1,13 +1,13 @@
 import React from 'react'
 import axios from 'axios'
+import { port } from '../../action/user'
 function Searchbar({setalladd,setsstatus,select,alladd,sstatus,setselect}) {
-    const port = "https://carbook.onrender.com"
     const search1 = async (v) => {
         try {
             setselect('')
             setsstatus(v)
             const { data } = await axios.get(`${port}/main/search/${v}`)
-            setalladd(data?.copResults)
+            setalladd(data)
         } catch (error) {
 
         }
@@ -35,9 +35,9 @@ function Searchbar({setalladd,setsstatus,select,alladd,sstatus,setselect}) {
                                     {
                                         alladd?.map((v, i) => {
                                             return <p onClick={() => {
-                                                setselect({ address: v?.formattedAddress, city: v?.city })
+                                                setselect(v)
                                                 setsstatus('')
-                                            }}>{v?.formattedAddress}</p>
+                                            }}>{v?.display_name}</p>
                                         })
                                     }
 
