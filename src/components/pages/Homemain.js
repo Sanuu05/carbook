@@ -69,13 +69,13 @@ function Homemain() {
                 onChange={selecttime}
               />
             </div>
-            {fromtime && select?.address ? (
+            {fromtime && location?.name ? (
               <NavLink
                 to={`/home/${JSON.stringify({
                   from: fromtime,
                   to: totime,
-                  address: select,
-                  city: select?.city,
+                  address: location?.display_name,
+                  city: location?.name,
                   ttime: totaltime,
                 })}`}
               >

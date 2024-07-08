@@ -8,6 +8,7 @@ import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInW
 import { loguser, userSign } from '../../action/user'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import car from '../../assets/car.png'
 function Login() {
     const [data, setdata] = useState({
         name: "", email: "", password: "", cpassword: ""
@@ -91,7 +92,7 @@ function Login() {
         <Container style={{ minHeight: '100vh', display: 'flex' }}>
             <Row>
                 <Col sm={12} md={6} xl={6}>
-                    <img src="https://starpng.com/public/uploads/preview/car-transparent-background-png-101577011666b0xvgdmw9a.png" className='img-fluid' />
+                    <img src={car} className='img-fluid' />
                 </Col>
                 <Col sm={12} md={6} xl={6} style={{ minHeight: '60%' }}>
                     <div className="mycard">
