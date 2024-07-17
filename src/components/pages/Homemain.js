@@ -43,7 +43,7 @@ function Homemain() {
           <div
             className="map-search-container"
             style={{
-              height: "300px",
+              // height: "300px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -53,7 +53,7 @@ function Homemain() {
             <MapComponent location={location} setLocation={setLocation} />
           </div>
           <div className="datecard">
-            <p>Rent Your Self Drive Car</p>
+            {/* <p>Rent Your Self Drive Car</p>
             <Searchbar
               setalladd={(v) => setalladd(v)}
               setsstatus={(v) => setsstatus(v)}
@@ -61,7 +61,7 @@ function Homemain() {
               select={select}
               alladd={alladd}
               sstatus={sstatus}
-            />
+            /> */}
             <div>
               <RangePicker
                 showTime={"HH:mm"}

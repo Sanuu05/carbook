@@ -71,6 +71,7 @@ font-family: 'Righteous', cursive;
   margin-right: auto; 
   /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 2px 10px 0 rgba(167, 164, 164, 0.19); */
   border-radius: 10px;
+  padding-bottom: 20px;
 
 }
 .homemaindiv .homemainhead {
@@ -163,7 +164,7 @@ font-family: 'Righteous', cursive;
     font-size: 20px!important;
   }
   .homemaindiv .datecard{
-    min-height: 250px;
+    /* min-height: 250px; */
     width: 70%;
     /* position: absolute; */
     background-color: transparent;
