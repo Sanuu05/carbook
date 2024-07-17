@@ -57,9 +57,8 @@ function MapComponent() {
       }
     });
   };
-
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAYH1vpQu3Izr_jEvdlFD4x-jdg2ODW3fk" libraries={['places']}>
+    <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY} libraries={['places']}>
       <div style={{width: '450px'}}>
         <GoogleMap
           mapContainerStyle={containerStyle}
