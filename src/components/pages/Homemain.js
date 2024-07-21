@@ -1,7 +1,7 @@
 import { DatePicker } from "antd";
 import React, { useState } from "react";
 import moment from "moment";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
@@ -23,13 +23,14 @@ function Homemain() {
     settotime(moment(value[1]).format("MMM DD yyyy HH:mm"));
     settotaltime(value[1].diff(value[0], "Hours"));
   };
+  const navigation = useNavigate()
 
   const [location, setLocation] = useState(null);
 
   const handleSelectLocation = (loc) => {
     setLocation(loc);
   };
-
+  console.log({ location });
   return (
     <div className="homemain">
       <div className="homemaindiv">
@@ -50,11 +51,27 @@ function Homemain() {
             }}
           >
             {/* <SearchComponent onSelect={handleSelectLocation} /> */}
-            <MapComponent location={location} setLocation={setLocation} />
+            {/* <MapComponent location={location} setLocation={setLocation} /> */}
           </div>
           <div className="datecard">
-            {/* <p>Rent Your Self Drive Car</p>
-            <Searchbar
+            <p>Rent Your Self Drive Car</p>
+            <div
+              style={{
+                display: "inline-block",
+                width: "100%",
+                cursor:'pointer'
+              }}
+              onClick={()=>navigation('/locationSearch')}
+            >
+              <input
+                placeholder="Location"
+                value={select?.address}
+                type="text"
+                className="sinput"
+                readOnly
+              />
+            </div>
+            {/* <Searchbar
               setalladd={(v) => setalladd(v)}
               setsstatus={(v) => setsstatus(v)}
               setselect={(v) => handleSelectLocation(v)}

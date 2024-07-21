@@ -6,13 +6,17 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+import { MdMyLocation, MdOutlineMap } from "react-icons/md";
+import { Button, Container } from "react-bootstrap";
+import { BsDot } from "react-icons/bs";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const containerStyle = {
   width: "100%",
   height: "400px",
 };
 
-function MapComponent() {
+function MapComponent({ setLocation }) {
   const [mapCenter, setMapCenter] = useState({ lat: 22.5726, lng: 88.3639 }); // Initial center (Kolkata)
   const [markers, setMarkers] = useState([{ lat: 22.5726, lng: 88.3639 }]);
   const [selected, setSelected] = useState(null);
@@ -20,6 +24,7 @@ function MapComponent() {
   const inputRef = useRef(null);
   const geocoderRef = useRef(null);
   const mapRef = useRef(null);
+  const navigation = useNavigate()
 
   const onLoad = (autocomplete) => {
     autocompleteRef.current = autocomplete;
@@ -33,9 +38,13 @@ function MapComponent() {
         lng: place.geometry.location.lng(),
       };
       setMapCenter(newCenter);
-      setMarkers([...markers, newCenter]);
+      setMarkers([newCenter]);
       if (inputRef.current) {
         inputRef.current.value = place.formatted_address || place.name;
+        setLocation({
+          ...newCenter,
+          address: place.formatted_address || place.name,
+        });
       }
     }
   };
@@ -50,62 +59,160 @@ function MapComponent() {
 
     // Reverse geocoding
     geocoderRef.current.geocode({ location: newLatLng }, (results, status) => {
-      if (status === 'OK' && results[0]) {
+      if (status === "OK" && results[0]) {
         if (inputRef.current) {
           inputRef.current.value = results[0].formatted_address;
+          setLocation({ ...newMarkers, address: results[0].formatted_address });
         }
       }
     });
   };
-  return (
-    <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY} libraries={['places']}>
-      <div style={{width: '450px'}}>
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={mapCenter}
-          zoom={12}
-          onLoad={(map) => {
-            mapRef.current = map;
-            geocoderRef.current = new window.google.maps.Geocoder();
-          }}
-        >
-          {markers.map((location, index) => (
-            <Marker
-              key={index}
-              position={location}
-              draggable={true}
-              onDragEnd={(event) => onMarkerDragEnd(event, index)}
-              onClick={() => setSelected(location)}
-            />
-          ))}
 
-          {selected && (
-            <InfoWindow
-              position={selected}
-              onCloseClick={() => setSelected(null)}
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const newCenter = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          setMapCenter(newCenter);
+          setMarkers([newCenter]);
+          geocoderRef.current.geocode(
+            { location: newCenter },
+            (results, status) => {
+              if (status === "OK" && results[0]) {
+                if (inputRef.current) {
+                  inputRef.current.value = results[0].formatted_address;
+                  setLocation({
+                    ...newCenter,
+                    address: results[0].formatted_address,
+                  });
+                }
+              }
+            }
+          );
+        },
+        () => {
+          alert("Error getting current location");
+        }
+      );
+    } else {
+      alert("Geolocation is not supported by this browser.");
+    }
+  };
+
+  useEffect(() => {
+    getCurrentLocation();
+  }, []);
+
+  return (
+    <Container>
+      <LoadScript
+        googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+        libraries={["places"]}
+      >
+        <div>
+          <div style={{ width: "", flexDirection: "row", display: "flex" }}>
+            <div
+              style={{
+                flex: 1,
+              }}
             >
-              <div>
-                <h2>Selected Location</h2>
-                <p>Latitude: {selected.lat}</p>
-                <p>Longitude: {selected.lng}</p>
-              </div>
-            </InfoWindow>
-          )}
-        </GoogleMap>
-        <div className="datecard" style={{marginBottom: "10px"}}>
-          <p>Rent Your Self Drive Car</p>
-          <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-            <input
-              type="text"
-              ref={inputRef}
-              className="sinput"
-              placeholder="Search for places"
-              style={{ width: "100%", padding: "10px", outline: 'none', marginTop: '5px' }}
-            />
-          </Autocomplete>
+              {/* <BsDot /> */}
+
+              <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                <input
+                  type="text"
+                  ref={inputRef}
+                  className="mapInput"
+                  placeholder="Search for places"
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    outline: "none",
+                    marginTop: "5px",
+                  }}
+                />
+              </Autocomplete>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                cursor: "pointer",
+                margin: 20,
+              }}
+              onClick={getCurrentLocation}
+            >
+              <MdMyLocation size={22} />
+              <p style={{ margin: 5 }} className="d-none d-sm-inline">
+                Current Location
+              </p>
+            </div>
+            {/* <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                cursor: "pointer",
+                margin:5
+              }}
+            >
+              <MdOutlineMap size={22} />
+              <p style={{ margin: 5 }}>Select Location on Map</p>
+            </div> */}
+          </div>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={mapCenter}
+            zoom={12}
+            onLoad={(map) => {
+              mapRef.current = map;
+              geocoderRef.current = new window.google.maps.Geocoder();
+            }}
+          >
+            {markers.map((location, index) => (
+              <Marker
+                key={index}
+                position={location}
+                draggable={true}
+                onDragEnd={(event) => onMarkerDragEnd(event, index)}
+                onClick={() => setSelected(location)}
+              />
+            ))}
+
+            {selected && (
+              <InfoWindow
+                position={selected}
+                onCloseClick={() => setSelected(null)}
+              >
+                <div>
+                  <h2>Selected Location</h2>
+                  <p>Latitude: {selected.lat}</p>
+                  <p>Longitude: {selected.lng}</p>
+                </div>
+              </InfoWindow>
+            )}
+          </GoogleMap>
+          <div
+            className="datecard"
+            style={{
+              marginBottom: "10px",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "row",
+              display: "flex",
+            }}
+          >
+            <button className="locationButton" style={{ maxWidth: 400 }} onClick={()=>navigation('/')}>
+              CONFIRM PICKUP LOCATION
+            </button>
+          </div>
         </div>
-      </div>
-    </LoadScript>
+      </LoadScript>
+    </Container>
   );
 }
 

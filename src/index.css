@@ -87,6 +87,7 @@ font-family: 'Righteous', cursive;
   /* padding-top: 50px; */
 }
 .homemaindiv .datecard .sinput ,.homem .sinput{
+  pointer-events: none; 
   width: 100%;
   /* height: 50px; */
   padding: 20px 11px 20px!important;
@@ -135,7 +136,7 @@ font-family: 'Righteous', cursive;
   font-size: 18px;
   color: orangered;
 }
-.homemaindiv .datecard button{
+.homemaindiv .datecard button,.locationButton{
   width: 100%;
   margin-top: 15px;
   padding: 10px;
@@ -151,6 +152,18 @@ font-family: 'Righteous', cursive;
 .leaflet-container{
   height: 300px!important;
   width: 450px!important;
+}
+
+.mapInput{
+  /* pointer-events: none;  */
+  /* width: 100%; */
+  /* height: 50px; */
+  padding: 20px 11px 20px!important;
+  margin-bottom: 10px;
+  border: 1px solid #d9d9d9;
+  outline: none;
+  cursor: pointer;
+
 }
 
 @media screen and (max-width: 880px) {
